@@ -1,9 +1,20 @@
 package ch.so.agi.gretl;
 
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
-public class HelloWorld {
+public class HelloWorld extends Task {
     public void execute() {
         System.out.println("Hello World");
+        
+        // use of the reference to Project-instance
+        String message = getProject().getProperty("ant.project.name");
+
+        // Task's log method
+        log("Here is project '" + message + "'.", Project.MSG_INFO);
+
+        // where this task is used?
+        log("I am used in: " +  getLocation() );
+
     }
 }
