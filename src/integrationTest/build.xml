@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="MyTask" basedir=".">
+  <target name="resolve" description="Retrieve dependencies with Ivy">
+    <ivy:retrieve/>
+  </target>
+  <target name="use" description="Use the Task">
+    <taskdef name="helloworld" classname="ch.so.agi.gretl.HelloWorld" classpath="../../build/libs/gretl-ng-0.0.LOCALBUILD.jar"/>
+    <helloworld/>
+  </target>
+</project>
