@@ -5,6 +5,13 @@
   </target>
   <target name="use" description="Use the Task">
     <taskdef name="helloworld" classname="ch.so.agi.gretl.HelloWorld" classpath="../../build/libs/gretl-ng-0.0.LOCALBUILD.jar"/>
-    <helloworld/>
+    <helloworld message="Hello World"/>
+  </target>
+  <target name="validateData" description="Use ilivalidator task">
+    <taskdef name="ilivalidator" classname="ch.so.agi.gretl.tasks.IliValidator" classpath="../../build/libs/gretl-ng-0.0.LOCALBUILD.jar"/>
+    <ilivalidator>
+      <datafile path="254900.itf"/>
+      <datafile path="252400.itf"/>
+    </ilivalidator>
   </target>
 </project>

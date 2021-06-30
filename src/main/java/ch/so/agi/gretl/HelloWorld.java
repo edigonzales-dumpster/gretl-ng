@@ -4,11 +4,18 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 public class HelloWorld extends Task {
+    
+    String message;
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public void execute() {
-        System.out.println("Hello World");
-        
+        System.out.println("Hello World");            
+
         // use of the reference to Project-instance
-        String message = getProject().getProperty("ant.project.name");
+        //String message = getProject().getProperty("ant.project.name");
 
         // Task's log method
         log("Here is project '" + message + "'.", Project.MSG_INFO);
