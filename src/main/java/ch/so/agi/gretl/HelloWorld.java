@@ -12,7 +12,7 @@ public class HelloWorld extends Task {
     }
 
     public void execute() {
-        System.out.println("Hello World");            
+        System.out.println("Hello World Fubar");            
 
         // use of the reference to Project-instance
         //String message = getProject().getProperty("ant.project.name");

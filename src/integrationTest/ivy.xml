@@ -2,8 +2,14 @@
 <ivy-module version="2.0">
   <info organisation="ch.so.agi" module="gretl"/>
   <dependencies>
-    <dependency org="commons-lang" name="commons-lang" rev="2.0"/>
-    <dependency org="commons-cli" name="commons-cli" rev="1.0"/>
-    <dependency org="ch.interlis" name="ilivalidator" rev="1.11.10"/>
+  <!--
+    <dependency org="ch.interlis" name="ilivalidator" rev="1.11.10">
+      <exclude org="junit" module="junit"/>
+      <exclude org="ch.interlis" module="demoplugin"/>
+    </dependency>
+  -->
+    <dependency org="io.github.sogis" name="gretl-ng" rev="0.0.1" >
+      <exclude org="org.apache.ant" module="ant"/>  
+    </dependency>
   </dependencies>
 </ivy-module>
