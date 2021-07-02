@@ -20,7 +20,7 @@ public class IliValidator extends AbstractValidatorTask {
         Settings settings = new Settings();
         
         
-        
+        System.out.println("foo");
 
     }
     
