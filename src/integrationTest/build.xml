@@ -3,14 +3,17 @@
   <target name="resolve" description="Retrieve dependencies with Ivy">
     <ivy:retrieve/>
     <ivy:cachepath pathid="new.classpath" />
+    <taskdef resource="gretl.properties" classpathref="new.classpath"/> <!-- Kann/muss bei int tests und in Produktion im Image anders gelöst werden. -->
     <!--<ivy:dependencytree />-->
   </target>
+
+
   <target name="use" description="Use the Task">
     <taskdef name="helloworld" classname="ch.so.agi.gretl.HelloWorld" classpath="../../build/libs/gretl-ng-0.0.1.jar"/>
     <helloworld message="Hello World"/>
   </target>
   <target name="validateData" description="Use ilivalidator task" depends="resolve">
-    <taskdef name="ilivalidator" classname="ch.so.agi.gretl.tasks.IliValidator" classpathref="new.classpath"/>
+    <!--<taskdef name="ilivalidator" classname="ch.so.agi.gretl.tasks.IliValidator" classpathref="new.classpath"/>-->
     <ilivalidator>
       <datafile path="254900.itf"/>
       <datafile path="252400.itf"/>
