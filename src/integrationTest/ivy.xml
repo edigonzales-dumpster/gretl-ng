@@ -8,7 +8,7 @@
       <exclude org="ch.interlis" module="demoplugin"/>
     </dependency>
   -->
-    <dependency org="io.github.sogis" name="gretl-ng" rev="0.0.1" >
+    <dependency org="io.github.sogis" name="gretl-ng" rev="latest.integration" >
       <exclude org="org.apache.ant" module="ant"/>  
     </dependency>
   </dependencies>

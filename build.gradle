@@ -21,6 +21,8 @@ dependencies {
     
     api group: 'org.apache.ant', name: 'ant', version: '1.10.10' // TODO: api vs implementation?
     api 'ch.interlis:ilivalidator:1.11.10'
+    api 'ch.interlis:ili2db:4.5.0'
+    api 'ch.interlis:ili2pg:4.5.0'
 }
 
 tasks.named('test') {

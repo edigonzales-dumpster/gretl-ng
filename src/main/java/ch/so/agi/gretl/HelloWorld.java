@@ -1,5 +1,6 @@
 package ch.so.agi.gretl;
 
+import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
@@ -22,6 +23,12 @@ public class HelloWorld extends Task {
 
         // where this task is used?
         log("I am used in: " +  getLocation() );
+        
 
+        System.out.println();
+
+//        DefaultLogger logger = (DefaultLogger) getProject().getBuildListeners().get(0);
+        
+        
     }
 }

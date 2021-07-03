@@ -2,21 +2,33 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="MyTask" basedir=".">
   <target name="resolve" description="Retrieve dependencies with Ivy">
     <ivy:retrieve/>
-    <ivy:cachepath pathid="new.classpath" />
-    <taskdef resource="gretl.properties" classpathref="new.classpath"/> <!-- Kann/muss bei int tests und in Produktion im Image anders gelöst werden. -->
+    <ivy:cachepath pathid="new.classpath"/>
+    <!-- Kann/muss bei int tests und in Produktion im Image anders gelöst werden. -->
+    <taskdef resource="gretl.properties" classpathref="new.classpath"/>
     <!--<ivy:dependencytree />-->
   </target>
-
-
+  <target name="clean" description="Remove build directories">
+    <delete dir="lib"/>
+  </target>
+  <target name="clean-all" depends="clean" description="clean ivy cache">
+    <ivy:cleancache/>
+  </target>
   <target name="use" description="Use the Task">
     <taskdef name="helloworld" classname="ch.so.agi.gretl.HelloWorld" classpath="../../build/libs/gretl-ng-0.0.1.jar"/>
     <helloworld message="Hello World"/>
   </target>
   <target name="validateData" description="Use ilivalidator task" depends="resolve">
-    <!--<taskdef name="ilivalidator" classname="ch.so.agi.gretl.tasks.IliValidator" classpathref="new.classpath"/>-->
-    <ilivalidator>
-      <datafile path="254900.itf"/>
-      <datafile path="252400.itf"/>
+    <ilivalidator failOnError="false">
+      <datafile path="/Users/stefan/Downloads/254900.itf"/>
+      <datafile path="/Users/stefan/Downloads/252400.itf"/>
     </ilivalidator>
   </target>
+
+  <target name="replaceData" description="Use ili2pgReplace task" depends="resolve">
+    <ili2pgReplace 
+      dburi="jdbc:postgresql://localhost:54321/test" dbusr="ddluser" dbpwd="ddluser"
+      >
+    </ili2pgReplace>
+  </target>
+
 </project>

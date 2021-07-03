@@ -1,27 +1,41 @@
 package ch.so.agi.gretl.tasks;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.tools.ant.BuildException;
+import org.interlis2.validator.Validator;
 
 import ch.ehi.basics.settings.Settings;
 
 public class IliValidator extends AbstractValidatorTask {
     
     public void execute() {
-        System.out.println("fubar");
-        System.out.println(dataFiles.size());
-        
+        // TODO: je nachdem, ob ich noch filesets als Parameter zulasse,
+        // muss das anders behandelt werden ("||").
+        if (dataFiles == null) {
+            return;
+        }
+
+        List<String> files = new ArrayList<String>();
         for (DataFile dataFile : dataFiles) {
             log(dataFile.getPath());
+            
+            TaskUtils.getFilePath(getProject(), dataFile.getPath());
+            
+            File fileObj = TaskUtils.getFilePath(getProject(), dataFile.getPath()); //new File(dataFile.getPath());
+            String fileName = fileObj.getAbsolutePath();
+            files.add(fileName);             
         }
-        
-        //TaskUtils.getFilePath(project, description);
-        
+                
         Settings settings = new Settings();
-        
-        
-        System.out.println("foo");
+        initSettings(settings);
 
+        validationOk = new Validator().validate(files.toArray(new String[files.size()]), settings);
+        if (!validationOk && failOnError) {
+            throw new BuildException("validation failed");
+        }
     }
     
     List<DataFile> dataFiles = new ArrayList<DataFile>();
