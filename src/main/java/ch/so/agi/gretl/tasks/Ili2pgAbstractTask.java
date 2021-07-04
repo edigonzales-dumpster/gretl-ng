@@ -146,10 +146,8 @@ public abstract class Ili2pgAbstractTask extends Task {
         if (disableRounding) {
             settings.setDisableRounding(true);;
         }        
-
         
-        System.out.println("Fubar Fubar");
-        
+        System.out.println("Fubar Fubar");        
     }
     
     protected Config createConfig() {

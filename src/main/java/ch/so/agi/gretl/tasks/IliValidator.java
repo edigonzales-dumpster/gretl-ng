@@ -8,10 +8,17 @@ import org.apache.tools.ant.BuildException;
 import org.interlis2.validator.Validator;
 
 import ch.ehi.basics.settings.Settings;
+import ch.so.agi.gretl.logging.Ehi2GretlAdapter;
+import ch.so.agi.gretl.logging.GretlLogger;
+import ch.so.agi.gretl.logging.LogEnvironment;
 
 public class IliValidator extends AbstractValidatorTask {
+    private GretlLogger log;
     
     public void execute() {
+        log = LogEnvironment.getLogger(IliValidator.class);
+        Ehi2GretlAdapter.init();
+        
         // TODO: je nachdem, ob ich noch filesets als Parameter zulasse,
         // muss das anders behandelt werden ("||").
         if (dataFiles == null) {
