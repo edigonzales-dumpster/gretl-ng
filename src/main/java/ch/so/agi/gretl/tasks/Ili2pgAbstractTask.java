@@ -1,15 +1,22 @@
 package ch.so.agi.gretl.tasks;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 import ch.ehi.basics.logging.EhiLogger;
 import ch.ehi.ili2db.base.Ili2db;
+import ch.ehi.ili2db.base.Ili2dbException;
 import ch.ehi.ili2db.gui.Config;
 import ch.so.agi.gretl.api.Connector;
+import ch.so.agi.gretl.logging.GretlLogger;
+import ch.so.agi.gretl.logging.LogEnvironment;
 
 public abstract class Ili2pgAbstractTask extends Task {
+    protected GretlLogger log;
+
     private Connector database;
 
     protected String dburi = null;
@@ -35,6 +42,8 @@ public abstract class Ili2pgAbstractTask extends Task {
     protected String topics = null;
     
     protected boolean importTid = false;
+
+    protected boolean importBid = false;
     
     protected String preScript = null;
     
@@ -69,7 +78,7 @@ public abstract class Ili2pgAbstractTask extends Task {
 //    protected Range<Integer> datasetSubstring = null;
 
     protected void run(int function, Config settings) {
-//        log = LogEnvironment.getLogger(Ili2pgAbstractTask.class);
+        log = LogEnvironment.getLogger(Ili2pgAbstractTask.class);
         
         database = new Connector(dburi, dbusr, dbpwd);
         if (database == null) {
@@ -101,6 +110,9 @@ public abstract class Ili2pgAbstractTask extends Task {
         }
         if (importTid) {
             settings.setImportTid(true);
+        }
+        if (importBid) {
+            settings.setImportBid(true);
         }
         if (preScript != null) {
             settings.setPreScript(TaskUtils.getFilePath(getProject(), preScript).getAbsolutePath());
@@ -144,10 +156,45 @@ public abstract class Ili2pgAbstractTask extends Task {
             settings.setTransferFileFormat(Config.ILIGML20);
         }
         if (disableRounding) {
-            settings.setDisableRounding(true);;
+            settings.setDisableRounding(true);
         }        
         
-        System.out.println("Fubar Fubar");        
+        try {
+            java.sql.Connection conn = database.connect();
+            if (conn == null) {
+                throw new IllegalArgumentException("connection must not be null");
+            }
+//            settings.setJdbcConnection(conn);
+//            Ili2db.readSettingsFromDb(settings);
+//            Ili2db.run(settings, null);
+//            conn.commit();
+            System.out.println("fubar");
+            database.close();
+        } catch (Exception e) {
+            if (e instanceof Ili2dbException && !failOnException) {
+                log.info(e.getMessage());
+                return;
+            }
+
+            log.error("failed to run ili2pg", e);
+
+            BuildException be = TaskUtils.toAntBuildException(e);
+            throw be;
+        } finally { 
+            if (!database.isClosed()) {
+                try {
+                    database.connect().rollback();
+                } catch (SQLException e) {
+                    log.error("failed to rollback", e);
+                } finally {
+                    try {
+                        database.close();
+                    } catch (SQLException e) {
+                        log.error("failed to close", e);
+                    }
+                }
+            }
+        }
     }
     
     protected Config createConfig() {
@@ -202,6 +249,10 @@ public abstract class Ili2pgAbstractTask extends Task {
 
     public void setImportTid(boolean importTid) {
         this.importTid = importTid;
+    }
+    
+    public void setImportBid(boolean importBid) {
+        this.importBid = importBid;
     }
 
     public void setPreScript(String preScript) {

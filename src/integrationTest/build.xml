@@ -24,11 +24,12 @@
     </ilivalidator>
   </target>
 
-  <target name="replaceData" description="Use ili2pgReplace task" depends="resolve">
-    <ili2pgReplace 
-      dburi="jdbc:postgresql://localhost:54321/test" dbusr="ddluser" dbpwd="ddluser"
-      >
-    </ili2pgReplace>
+  <target name="importData" description="Use ili2pgImport task" depends="resolve">
+    <ili2pgImport dburi="jdbc:postgresql://localhost:54321/edit" dbusr="gretl" dbpwd="gretl">
+      <datafile path="/Users/stefan/Downloads/254900.itf"/>
+      <datafile path="/Users/stefan/Downloads/252400.itf"/>
+      <!--<fileset dir="/Users/stefan/Downloads/" includes="**/*.itf" casesensitive="true"/>-->
+    </ili2pgImport>
   </target>
 
 </project>

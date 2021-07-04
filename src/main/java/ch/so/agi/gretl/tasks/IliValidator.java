@@ -15,6 +15,14 @@ import ch.so.agi.gretl.logging.LogEnvironment;
 public class IliValidator extends AbstractValidatorTask {
     private GretlLogger log;
     
+    List<DataFile> dataFiles = new ArrayList<DataFile>();
+    
+    public DataFile createDataFile() {
+        DataFile dataFile = new DataFile();
+        dataFiles.add(dataFile);
+        return dataFile;
+    }    
+    
     public void execute() {
         log = LogEnvironment.getLogger(IliValidator.class);
         Ehi2GretlAdapter.init();
@@ -28,8 +36,6 @@ public class IliValidator extends AbstractValidatorTask {
         List<String> files = new ArrayList<String>();
         for (DataFile dataFile : dataFiles) {
             log(dataFile.getPath());
-            
-            TaskUtils.getFilePath(getProject(), dataFile.getPath());
             
             File fileObj = TaskUtils.getFilePath(getProject(), dataFile.getPath()); //new File(dataFile.getPath());
             String fileName = fileObj.getAbsolutePath();
@@ -45,25 +51,4 @@ public class IliValidator extends AbstractValidatorTask {
         }
     }
     
-    List<DataFile> dataFiles = new ArrayList<DataFile>();
-    
-    public DataFile createDataFile() {
-        DataFile dataFile = new DataFile();
-        dataFiles.add(dataFile);
-        return dataFile;
-    }
-    
-    public class DataFile {
-        public DataFile() {}
-        
-        private String path;
-        
-        public void setPath(String path) {
-            this.path = path;
-        }
-        
-        public String getPath() {
-            return path;
-        }
-    }
 }

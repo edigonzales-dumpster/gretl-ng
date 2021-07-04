@@ -1,7 +1,7 @@
 package ch.so.agi.gretl.util;
 
-//import ch.so.agi.gretl.logging.GretlLogger;
-//import ch.so.agi.gretl.logging.LogEnvironment;
+import ch.so.agi.gretl.logging.GretlLogger;
+import ch.so.agi.gretl.logging.LogEnvironment;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -14,7 +14,7 @@ public class DbConnector {
 
     private static HashMap<String, String> jdbcDriverClasses = null;
 
-//    private static GretlLogger log = LogEnvironment.getLogger(DbConnector.class);
+    private static GretlLogger log = LogEnvironment.getLogger(DbConnector.class);
 
     static {
         jdbcDriverClasses = new HashMap<String, String>();
@@ -51,9 +51,9 @@ public class DbConnector {
             Driver driver = null;
 
             try {
-                driver = (Driver) Class.forName(driverClassName).newInstance();
+                driver = (Driver) Class.forName(driverClassName).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
-                //throw new GretlException("Could not find and load jdbc Driver Class " + driverClassName, e);
+                throw new GretlException("Could not find and load jdbc Driver Class " + driverClassName, e);
             }
 
             DriverManager.registerDriver(driver);
@@ -61,8 +61,8 @@ public class DbConnector {
             con = DriverManager.getConnection(connectionUrl, userName, password);
             con.setAutoCommit(false);
 
-//            log.debug("DB connected with these Parameters:  ConnectionURL:" + connectionUrl + " Username: " + userName
-//                    + " Password: " + password);
+            log.debug("DB connected with these Parameters:  ConnectionURL:" + connectionUrl + " Username: " + userName
+                    + " Password: " + password);
 
         } catch (SQLException e) {
             if (con != null) {
@@ -71,14 +71,14 @@ public class DbConnector {
                     con.close();
                     con = null;
                 } catch (SQLException f) {
-//                    log.info(f.toString());
+                    log.info(f.toString());
                 }
             }
-//            log.error("Could not connect to: " + connectionUrl, e);
-//            throw new GretlException("Could not connect to: " + connectionUrl, e);
+            log.error("Could not connect to: " + connectionUrl, e);
+            throw new GretlException("Could not connect to: " + connectionUrl, e);
         } catch (Exception e) {
-//            log.error("Connection URL is undefined: " + connectionUrl, e);
-//            throw new GretlException("Connection URL is undefined: " + connectionUrl, e);
+            log.error("Connection URL is undefined: " + connectionUrl, e);
+            throw new GretlException("Connection URL is undefined: " + connectionUrl, e);
         }
         return con;
     }

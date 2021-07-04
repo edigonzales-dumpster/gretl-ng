@@ -2,8 +2,8 @@ package ch.so.agi.gretl.api;
 
 import ch.so.agi.gretl.util.DbConnector;
 
-//import ch.so.agi.gretl.logging.GretlLogger;
-//import ch.so.agi.gretl.logging.LogEnvironment;
+import ch.so.agi.gretl.logging.GretlLogger;
+import ch.so.agi.gretl.logging.LogEnvironment;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ public class Connector {
     private String dbUri;
     private String dbUser;
     private String dbPassword;
-//    private GretlLogger log;
+    private GretlLogger log;
     private Connection dbConnection = null;
 
     public Connector(String dbUri) {
@@ -32,7 +32,7 @@ public class Connector {
         this.dbUri = dbUri;
         this.dbUser = dbUser;
         this.dbPassword = dbPassword;
-//        this.log = LogEnvironment.getLogger(this.getClass());
+        this.log = LogEnvironment.getLogger(this.getClass());
     }
 
     public Connection connect() throws SQLException {
