@@ -36,36 +36,30 @@ public class LogEnvironment {
     }
     
     public static GretlLogger getLogger(Object obj) {
-        System.out.println("çççç***"+obj.getClass());
-        
-
-
         if (currentLogFactory == null) {
             System.out.println("currentLogFactory == null");
             try {
                 if (Class.forName("org.apache.tools.ant.Project") != null) {
+                    System.out.println("setLogFactory(new AntLogFactory()");
                     setLogFactory(new AntLogFactory());
-                    
-                    // Factory muss zwingend immer zuerst von einem Task
-                    // gesetzt werden. Dann wird auch das Project initialisiert
-                    // und die statischen Methoden können loggen.
-                    if (obj instanceof Task) {
-                        project = ((Task) obj).getProject();
-                        return currentLogFactory.getLogger(obj);
-                    } else {
-                        return currentLogFactory.getLogger(project);
-                    }
                 }
             } catch (ClassNotFoundException e) {
-                // use java logging if no Ant in classpath
+                // use java logging if no Ant in classpath                
                 setLogFactory(new CoreJavaLogFactory(Level.DEBUG));
                 return currentLogFactory.getLogger(obj);
             }
         }
         if (obj == null)
             throw new IllegalArgumentException("The logSource must not be null");
-        
-        setLogFactory(new CoreJavaLogFactory(Level.DEBUG));
-        return currentLogFactory.getLogger(obj);
+
+        // Factory muss zwingend immer zuerst von einem Task
+        // gesetzt werden. Dann wird auch das Project initialisiert
+        // und die statischen Methoden können loggen.
+        if (obj instanceof Task) {
+            project = ((Task) obj).getProject();
+            return currentLogFactory.getLogger(obj);
+        } else {
+            return currentLogFactory.getLogger(project);
+        }
     }
 }

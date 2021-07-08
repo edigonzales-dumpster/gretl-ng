@@ -27,8 +27,6 @@ public class IliValidator extends AbstractValidatorTask {
     
     public void execute() {
         log = LogEnvironment.getLogger(this);
-        // TODO: ?? Braucht es das wirklich? Vielleicht wegen des Mapping zwischen den Loglevels (die jetzt
-        // anders sind als bei GRETL).
         Ehi2GretlAdapter.init(this);
         
         // TODO: je nachdem, ob ich noch filesets als Parameter zulasse,

@@ -1,5 +1,8 @@
 package ch.so.agi.gretl.logging;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
@@ -70,7 +73,7 @@ public class Ehi2GretlAdapter implements LogListener {
                 }
             }
         }
-        
+                
         switch (event.getEventKind()) {
         case LogEvent.DEBUG_TRACE:
             logger.debug(objRef + msg);

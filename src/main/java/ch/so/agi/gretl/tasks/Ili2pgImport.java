@@ -38,8 +38,7 @@ public class Ili2pgImport extends Ili2pgAbstractTask {
     
     public void execute() {
         log = LogEnvironment.getLogger(this);
-        // TODO: So wird alles doppelt geloggt.
-        //Ehi2GretlAdapter.init(this);
+        Ehi2GretlAdapter.init(this);
 
         Config settings = createConfig();
         int function = Config.FC_IMPORT;
@@ -51,7 +50,7 @@ public class Ili2pgImport extends Ili2pgAbstractTask {
         List<String> files = new ArrayList<String>();
         
         for (DataFile dataFile : dataFiles) {
-            File fileObj = TaskUtils.getFilePath(getProject(), dataFile.getPath()); //new File(dataFile.getPath());
+            File fileObj = TaskUtils.getFilePath(getProject(), dataFile.getPath());
             String fileName = fileObj.getAbsolutePath();
             files.add(fileName);
         }

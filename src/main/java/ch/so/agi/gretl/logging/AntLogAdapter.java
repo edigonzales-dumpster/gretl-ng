@@ -10,14 +10,12 @@ import org.apache.tools.ant.Task;
 public class AntLogAdapter implements GretlLogger {
     Task task;
     Project project;
-    boolean taskLogger = false;
     
     AntLogAdapter(Object obj) {
-        System.out.println("1: "  +obj.getClass());
         if (obj instanceof Task) {
             this.task = (Task) obj;
         } else {
-            this.project = task.getProject();
+            this.project = (Project) obj;
         }
     }
 
@@ -30,7 +28,11 @@ public class AntLogAdapter implements GretlLogger {
     }
 
     public void debug(String msg) {
-        task.log(msg, Project.MSG_DEBUG);
+        if (task != null) {
+            task.log(msg, Project.MSG_DEBUG);
+        } else {
+            project.log(msg, Project.MSG_DEBUG);
+        }
     }
 
     public void verbose(String msg) {
@@ -42,6 +44,10 @@ public class AntLogAdapter implements GretlLogger {
     }
 
     public void error(String msg, Throwable thrown) {
-        task.log(msg, Project.MSG_ERR);
+        if (task != null) { 
+            task.log(msg, Project.MSG_ERR);
+        } else {
+            project.log(msg, Project.MSG_ERR);
+        }
     }
 }
