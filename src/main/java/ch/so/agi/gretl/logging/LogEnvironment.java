@@ -41,6 +41,7 @@ public class LogEnvironment {
 
 
         if (currentLogFactory == null) {
+            System.out.println("currentLogFactory == null");
             try {
                 if (Class.forName("org.apache.tools.ant.Project") != null) {
                     setLogFactory(new AntLogFactory());

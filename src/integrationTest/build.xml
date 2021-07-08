@@ -30,7 +30,8 @@
       dbusr="gretl" 
       dbpwd="gretl" 
       dbschema="agi_dm01avso24"
-      models="DM01AVSO24LV95">
+      models="DM01AVSO24LV95"
+      disableValidation="true">
       <datafile path="/Users/stefan/Downloads/254900.itf"/>
       <!--<datafile path="/Users/stefan/Downloads/252400.itf"/>-->
       <!--<fileset dir="/Users/stefan/Downloads/" includes="**/*.itf" casesensitive="true"/>-->
