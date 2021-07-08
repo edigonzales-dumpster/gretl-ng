@@ -37,10 +37,8 @@ public class LogEnvironment {
     
     public static GretlLogger getLogger(Object obj) {
         if (currentLogFactory == null) {
-            System.out.println("currentLogFactory == null");
             try {
                 if (Class.forName("org.apache.tools.ant.Project") != null) {
-                    System.out.println("setLogFactory(new AntLogFactory()");
                     setLogFactory(new AntLogFactory());
                 }
             } catch (ClassNotFoundException e) {
