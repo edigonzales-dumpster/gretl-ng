@@ -11,7 +11,7 @@ public class Ili2pgReplace extends Ili2pgAbstractTask {
 
     public void execute() {
         log = LogEnvironment.getLogger(Ili2pgReplace.class);
-        Ehi2GretlAdapter.init();
+//        Ehi2GretlAdapter.init();
 
         Config settings = createConfig();
         int function = Config.FC_REPLACE;

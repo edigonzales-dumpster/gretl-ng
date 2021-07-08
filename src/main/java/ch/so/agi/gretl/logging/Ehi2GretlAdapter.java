@@ -1,5 +1,8 @@
 package ch.so.agi.gretl.logging;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+
 import ch.ehi.basics.logging.EhiLogger;
 import ch.ehi.basics.logging.LogEvent;
 import ch.ehi.basics.logging.LogListener;
@@ -8,14 +11,13 @@ import ch.interlis.iox.IoxLogEvent;
 
 public class Ehi2GretlAdapter implements LogListener {
     private static Ehi2GretlAdapter instance = null;
-    private GretlLogger logger = null;
+    private static GretlLogger logger = null;
 
-    private Ehi2GretlAdapter() {
-        logger = LogEnvironment.getLogger(EhiLogger.class);
-    }
+    private Ehi2GretlAdapter() {}
 
-    public static void init() {
+    public static void init(Task task) {
         if (instance == null) {
+            logger = LogEnvironment.getLogger(task);
             instance = new Ehi2GretlAdapter();
             EhiLogger.getInstance().addListener(instance);
             EhiLogger.getInstance().removeListener(StdListener.getInstance());
@@ -68,6 +70,7 @@ public class Ehi2GretlAdapter implements LogListener {
                 }
             }
         }
+        
         switch (event.getEventKind()) {
         case LogEvent.DEBUG_TRACE:
             logger.debug(objRef + msg);
@@ -82,7 +85,7 @@ public class Ehi2GretlAdapter implements LogListener {
             logger.info(objRef + msg);
             break;
         case LogEvent.STATE:
-            logger.info(objRef + msg);
+            logger.verbose(objRef + msg);
             break;
         case LogEvent.ADAPTION:
             logger.info(objRef + msg);

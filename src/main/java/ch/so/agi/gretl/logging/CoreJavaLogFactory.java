@@ -8,7 +8,14 @@ public class CoreJavaLogFactory implements LogFactory {
         this.globalLogLevel = globalLogLevel;
     }
 
-    public GretlLogger getLogger(Class logSource) {
-        return new CoreJavaLogAdaptor(logSource, globalLogLevel);
+//    @Override
+//    public GretlLogger getLogger(Class logSource) {
+//        return new CoreJavaLogAdaptor(logSource, globalLogLevel);
+//    }
+
+    @Override
+    public GretlLogger getLogger(Object obj) {
+        Class clazz = (Class) obj.getClass();
+        return new CoreJavaLogAdapter(clazz, globalLogLevel);
     }
 }

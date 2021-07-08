@@ -1,10 +1,13 @@
 package ch.so.agi.gretl.logging;
 
+import org.apache.tools.ant.Task;
+
 public class AntLogFactory implements LogFactory {
 
-    AntLogFactory() {}
+    public AntLogFactory() {}
 
-    public GretlLogger getLogger(Class logSource) {
-        return new AntLogAdaptor(logSource);
+    @Override
+    public GretlLogger getLogger(Object obj) {
+        return new AntLogAdapter(obj);
     }
 }

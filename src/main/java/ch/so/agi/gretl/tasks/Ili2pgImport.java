@@ -37,8 +37,9 @@ public class Ili2pgImport extends Ili2pgAbstractTask {
     // Kann ja genau so gut mit dem Replace-Task gemacht werden (glaubs)?
     
     public void execute() {
-        log = LogEnvironment.getLogger(Ili2pgReplace.class);
-        Ehi2GretlAdapter.init();
+        log = LogEnvironment.getLogger(this);
+        // TODO: So wird alles doppelt geloggt.
+        //Ehi2GretlAdapter.init(this);
 
         Config settings = createConfig();
         int function = Config.FC_IMPORT;

@@ -1,6 +1,5 @@
 package ch.so.agi.gretl.tasks;
 
-import java.io.File;
 import java.sql.SQLException;
 
 import org.apache.tools.ant.BuildException;
@@ -78,7 +77,7 @@ public abstract class Ili2pgAbstractTask extends Task {
 //    protected Range<Integer> datasetSubstring = null;
 
     protected void run(int function, Config settings) {
-        log = LogEnvironment.getLogger(Ili2pgAbstractTask.class);
+        log = LogEnvironment.getLogger(this);
         
         database = new Connector(dburi, dbusr, dbpwd);
         if (database == null) {
@@ -164,11 +163,10 @@ public abstract class Ili2pgAbstractTask extends Task {
             if (conn == null) {
                 throw new IllegalArgumentException("connection must not be null");
             }
-//            settings.setJdbcConnection(conn);
-//            Ili2db.readSettingsFromDb(settings);
-//            Ili2db.run(settings, null);
-//            conn.commit();
-            System.out.println("fubar");
+            settings.setJdbcConnection(conn);
+            Ili2db.readSettingsFromDb(settings);
+            Ili2db.run(settings, null);
+            conn.commit();
             database.close();
         } catch (Exception e) {
             if (e instanceof Ili2dbException && !failOnException) {

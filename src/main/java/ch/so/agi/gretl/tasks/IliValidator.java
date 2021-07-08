@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Target;
 import org.interlis2.validator.Validator;
 
 import ch.ehi.basics.settings.Settings;
@@ -24,8 +26,10 @@ public class IliValidator extends AbstractValidatorTask {
     }    
     
     public void execute() {
-        log = LogEnvironment.getLogger(IliValidator.class);
-        Ehi2GretlAdapter.init();
+        log = LogEnvironment.getLogger(this);
+        // TODO: ?? Braucht es das wirklich? Vielleicht wegen des Mapping zwischen den Loglevels (die jetzt
+        // anders sind als bei GRETL).
+        Ehi2GretlAdapter.init(this);
         
         // TODO: je nachdem, ob ich noch filesets als Parameter zulasse,
         // muss das anders behandelt werden ("||").
@@ -34,10 +38,8 @@ public class IliValidator extends AbstractValidatorTask {
         }
 
         List<String> files = new ArrayList<String>();
-        for (DataFile dataFile : dataFiles) {
-            log(dataFile.getPath());
-            
-            File fileObj = TaskUtils.getFilePath(getProject(), dataFile.getPath()); //new File(dataFile.getPath());
+        for (DataFile dataFile : dataFiles) {            
+            File fileObj = TaskUtils.getFilePath(getProject(), dataFile.getPath());
             String fileName = fileObj.getAbsolutePath();
             files.add(fileName);             
         }
@@ -50,5 +52,4 @@ public class IliValidator extends AbstractValidatorTask {
             throw new BuildException("validation failed");
         }
     }
-    
 }

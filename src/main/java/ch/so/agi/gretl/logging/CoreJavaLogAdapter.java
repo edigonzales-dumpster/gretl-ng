@@ -6,11 +6,11 @@ import java.util.logging.Logger;
  * Class behind the GretlLogger interface when using the steps without Ant
  * (in unit tests, ...).
  */
-public class CoreJavaLogAdaptor implements GretlLogger {
+public class CoreJavaLogAdapter implements GretlLogger {
 
     private java.util.logging.Logger logger;
 
-    CoreJavaLogAdaptor(Class logSource, Level logLevel) {
+    CoreJavaLogAdapter(Class logSource, Level logLevel) {
         this.logger = java.util.logging.Logger.getLogger(logSource.getName());
         this.logger.setLevel(logLevel.getInnerLevel());
     }
